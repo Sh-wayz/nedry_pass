@@ -7,6 +7,7 @@ Nedry-Pass
 Copyright (c) 2016, Scott Doucet
 All rights reserved.
 """
+# ALL CREDIT GOES TO https://github.com/Duroktar/nedry_pass/, I JUST MADE IT PYTHON3 AND CLEANED CODE
 import os as _os
 import sys as _sys
 import itertools as _it
@@ -19,7 +20,7 @@ from getpass import getpass as _gp
 from os.path import abspath as _abspath
 from os.path import dirname as _dirname
 from os.path import join as _join
-
+from playsound import playsound
 try:
     import winsound as _winsound
 except ImportError:
@@ -44,6 +45,7 @@ class YouDidntSayTheMagicWord(Exception):
         magic word." repeating in the background. Why? Because.
 
     """
+
     def __init__(self):
         self._console_spam()
         _sleep(0.8)
@@ -64,7 +66,7 @@ class YouDidntSayTheMagicWord(Exception):
 
         def run():
             while 1:
-                print _string
+                print(_string)
                 _sleep(0.05)
 
         t1 = _threading.Thread(target=run)
@@ -91,7 +93,7 @@ class YouDidntSayTheMagicWord(Exception):
             elif this_sys == "Linux":
                 with ignore_stderr():
                     while True:
-                        _os.system("play -q " + audiofile)
+                        playsound(audiofile)
                         _sleep(0.1)
             else:
                 try:
@@ -119,7 +121,8 @@ class YouDidntSayTheMagicWord(Exception):
         label = _tk.Label(root)
         label.pack(padx=10, pady=10)
         # store as tk img_objects
-        pictures = _it.cycle(_tk.PhotoImage(file=img_name) for img_name in pics)
+        pictures = _it.cycle(_tk.PhotoImage(file=img_name)
+                             for img_name in pics)
         # milliseconds
         delay = 150
 
@@ -153,11 +156,11 @@ def getpass(to_match, prompt=None, tries=3):
         if not try_pass == to_match:
             count += 1
             if count != tries:
-                print "PERMISSION DENIED."
+                print("PERMISSION DENIED")
         else:
             return True
     else:
-        print "PERMISSION DENIED....AND....."
+        print("PERMISSION DENIED....AND.....")
         _sleep(0.8)
         raise YouDidntSayTheMagicWord
 
@@ -172,20 +175,20 @@ def access_main_program():
     tries = 3
     count = 0
     __pass = "please"
-    print "Jurassic Park, System Security Interface\n" \
-          "Version 4.0.5, Alpha E \n" \
-          "Ready..."
+    print("Jurassic Park, System Security Interface\n"
+          "Version 4.0.5, Alpha E \n"
+          "Ready...")
     while count < tries:
-        echo = raw_input('> ').split() or ""
+        echo = input('> ').split() or ""
         if echo is None:
             echo = ""
         if __pass == echo:
             break
         count += 1
         if count != tries:
-            print "ACCESS: PERMISSION DENIED."
+            print("ACCESS: PERMISSION DENIED.")
         else:
-            print "ACCESS: PERMISSION DENIED....AND....."
+            print("ACCESS: PERMISSION DENIED....AND.....")
             _sleep(0.8)
             raise YouDidntSayTheMagicWord
 
